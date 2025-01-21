@@ -111,8 +111,11 @@ int intSize() {
   int *intPtr1;
   int *intPtr2;
   // Write code to compute size of an integer.
+  intPtr1 = &intArray[0];
+  intPtr2 = &intArray[1];
+  int size = (char *)intPtr2 - (char *)intPtr1;
 
-  return 2;
+  return size;
 }
 
 /*
@@ -134,8 +137,11 @@ int doubleSize() {
   double *doubPtr1;
   double *doubPtr2;
   // Write code to compute size of a double.
+  doubPtr1 = &doubArray[0];
+  doubPtr2 = &doubArray[1];
+  int size = (char *)doubPtr2 - (char *)doubPtr1;
 
-  return 2;
+  return size;
 }
 
 /*
@@ -157,8 +163,10 @@ int pointerSize() {
   double **ptrPtr1;
   double **ptrPtr2;
   // Write code to compute size of a pointer.
-
-  return 2;
+  ptrPtr1 = &ptrArray[0];
+  ptrPtr2 = &ptrArray[1];
+  int size = (char *)ptrPtr2 - (char *)ptrPtr1;
+  return size;
 }
 
 /*
@@ -177,7 +185,9 @@ int pointerSize() {
  *   Unary integer operators: ~, -
  */
 void swapInts(int *ptr1, int *ptr2) {
-  // Your code here
+  int temp = *ptr1;
+  *ptr1 = *ptr2;
+  *ptr2 = temp;
 }
 
 /*
@@ -200,7 +210,7 @@ int changeValue() {
   int *intPtr1 = intArray;
   // Remember not to use constants greater than 255.
   // Remember to use * to dereference. You cannot use '[<index>]' syntax.
-
+  *(intPtr1 + 5) = (200 + 95);
   return intArray[5];
 }
 
@@ -223,7 +233,10 @@ int changeValue() {
  */
 int withinSameBlock(int *ptr1, int *ptr2) {
   // Your code here
-  return 2;
+  int block1 = ((unsigned long)ptr1 >> 6);
+  int block2 = ((unsigned long)ptr2 >> 6);
+
+  return block1 == block2;
 }
 
 /*
@@ -247,7 +260,9 @@ int withinSameBlock(int *ptr1, int *ptr2) {
  */
 int withinArray(int *intArray, int size, int *ptr) {
   // Your code here
-  return 2;
+  int *start = intArray;
+  int *end = intArray + size;
+  return (ptr >= start) && (ptr < end);
 }
 
 /*
@@ -269,7 +284,11 @@ int withinArray(int *intArray, int size, int *ptr) {
  */
 int stringLength(char *s) {
   // Your code here
-  return 2;
+  char *start = s;
+  while (*s != '\0'){
+    s++;
+  };
+  return s - start;
 }
 
 /*
@@ -296,8 +315,12 @@ int stringLength(char *s) {
  *   Unary integer operators: ~, -
  */
 int endianExperiment(int *ptr) {
-  char *bytePtr;
-  // Your code here
+  char *bytePtr = (char *)ptr;
+
+  *bytePtr = 0x7F;
+  *(bytePtr + 1) = 0x81;   
+  *(bytePtr + 2) = 0x04;   
+  *(bytePtr + 3) = 0x00;   
   return *ptr;
 }
 
@@ -359,9 +382,14 @@ int smallest_idx(int *arr, int len) {
   int i;
   int smallest_i = 0;
   int smallest = arr[0];
-
+ 
   // TODO: implement me using a for loop.
-
+ for(i = 1; i < len; i++){
+  if(arr[i] < smallest){
+      smallest = arr[i];
+      smallest_i = i;
+    }
+  }
   return smallest_i;
 }
 
